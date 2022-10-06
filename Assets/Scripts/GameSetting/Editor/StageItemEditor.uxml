@@ -1,0 +1,15 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" editor-extension-mode="False">
+    <Style src="project://database/Assets/Scripts/GameSetting/Editor/SettingBaseEditor.uss?fileID=7433441132597879392&amp;guid=43a1b8509402e4271b0f7ce2d4884be5&amp;type=3#SettingBaseEditor" />
+    <ui:VisualElement name="StageItem" style="flex-direction: row; border-bottom-width: 1px; border-left-color: rgb(0, 0, 0); border-right-color: rgb(0, 0, 0); border-top-color: rgb(0, 0, 0); border-bottom-color: rgb(0, 0, 0); border-left-width: 1px; border-right-width: 1px; border-top-width: 1px; padding-top: 1px; height: 24px;">
+        <ui:VisualElement name="Remove" style="margin-left: 3px; margin-right: 3px; margin-top: 3px; margin-bottom: 3px; padding-left: 1px; padding-right: 2px; border-right-width: 1px; border-left-color: rgb(0, 0, 0); border-right-color: rgb(0, 0, 0); border-top-color: rgb(0, 0, 0); border-bottom-color: rgb(0, 0, 0); width: 30px; height: auto;">
+            <ui:Button text="X" display-tooltip-when-elided="true" name="removeButton" tooltip="データを削除します" style="-unity-font-style: bold; color: rgb(255, 0, 0); width: auto; height: auto; padding-left: 6px; padding-right: 6px; padding-top: 1px; padding-bottom: 1px; margin-left: 3px; margin-right: 3px; margin-top: 0; margin-bottom: 0; font-size: 14px;" />
+        </ui:VisualElement>
+        <ui:Label text="1" display-tooltip-when-elided="true" name="showNO" style="width: 36px; border-right-width: 1px; border-left-color: rgb(0, 0, 0); border-right-color: rgb(0, 0, 0); border-top-color: rgb(0, 0, 0); border-bottom-color: rgb(0, 0, 0); margin-left: 3px; margin-right: 3px; margin-top: 3px; margin-bottom: 3px; -unity-text-align: upper-right;" />
+        <uie:ObjectField name="prefabField" allow-scene-objects="false" style="width: 130px; border-right-width: 1px; border-left-color: rgb(0, 0, 0); border-right-color: rgb(0, 0, 0); border-top-color: rgb(0, 0, 0); border-bottom-color: rgb(0, 0, 0);" />
+        <ui:Label text="1" display-tooltip-when-elided="true" name="innerNO" style="width: 36px; border-right-width: 1px; border-left-color: rgb(0, 0, 0); border-right-color: rgb(0, 0, 0); border-top-color: rgb(0, 0, 0); border-bottom-color: rgb(0, 0, 0); margin-left: 3px; margin-right: 3px; margin-top: 3px; margin-bottom: 3px; -unity-text-align: upper-right;" />
+        <ui:VisualElement name="ButtonList" style="flex-direction: row; width: 130px; border-right-width: 1px; border-left-color: rgb(0, 0, 0); border-right-color: rgb(0, 0, 0); border-top-color: rgb(0, 0, 0); border-bottom-color: rgb(0, 0, 0); margin-left: 3px; margin-right: 3px; margin-top: 3px; margin-bottom: 3px; padding-left: 1px; padding-right: 2px;">
+            <ui:Button text="open" display-tooltip-when-elided="true" name="openStageButton" />
+            <ui:Button text="play" display-tooltip-when-elided="true" name="playStageButton" style="width: 50px;" />
+        </ui:VisualElement>
+    </ui:VisualElement>
+</ui:UXML>

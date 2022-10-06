@@ -45,9 +45,9 @@ public class TouchAreaUI : IGameItem, IPointerDownHandler, IPointerUpHandler
 
     public override void SystemUpdate()
     {
-        if (!m_GameManager.GetIsPlaying())
-        {
-            return;
-        }
+        //if (!m_GameManager.GetIsPlaying())
+        //{
+        //    return;
+        //}
     }
 }

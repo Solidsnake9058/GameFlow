@@ -13,21 +13,7 @@ namespace UnityGame.App.Manager
 
     public class GameManager : IGameItem
     {
-        public static GameManager m_Instance { private set; get; }
-
-        //private int m_CurrentLevel;
         private int m_ReplayStage;
-        public bool m_IsTestSceneStage;
-
-        //[SerializeField]
-        //private CameraController m_CameraController = default;
-        //[SerializeField]
-        //private GameSettings m_GameSettings = default;
-        [SerializeField]
-        private StageManager _StageManager = default;
-        public StageManager m_StageManager => _StageManager;
-        [SerializeField]
-        private GameUIManager m_GameUIManager = default;
 
         [SerializeField]
         private List<ParticleSystem> m_ClearParticles = default;
@@ -59,11 +45,6 @@ namespace UnityGame.App.Manager
 
         public bool m_IsGameOver = false;
 
-        //public bool GetIsPointDown()
-        //{
-        //    return m_GameUIManager.GetIsPointDown();
-        //}
-
         [Header("Tenjin")]
         [SerializeField]
         private List<int> m_TenjinClearEventStages = default;
@@ -72,28 +53,28 @@ namespace UnityGame.App.Manager
         private int m_StartCalShowIntersititial = 2;
         private bool m_IsCalShowIntersititial;
 
-        private void Awake()
-        {
-            if (m_Instance == null)
-            {
-                m_Instance = this;
-            }
-            else
-            {
-                Destroy(gameObject);
-            }
-        }
+        //private void Awake()
+        //{
+        //    if (m_Instance == null)
+        //    {
+        //        m_Instance = this;
+        //    }
+        //    else
+        //    {
+        //        Destroy(gameObject);
+        //    }
+        //}
 
-        public void Initialize()
+        public void Init()
         {
             //m_CameraController.Initialize(m_Instance);
-            m_StageManager.Initialize(m_Instance);
+            //GameMediator.m_StageManager.Initialize(m_Instance);
 
-            m_GameUIManager.Initialize(m_Instance);
+            //GameMediator.m_GameUIManager.Initialize(m_Instance);
 
             //m_IsLevelClear = true;
             //m_CurrentStage = 1;
-            GameSetting();
+            Setting();
         }
 
         public void StartGame()
@@ -106,59 +87,46 @@ namespace UnityGame.App.Manager
             }
         }
 
-        private void ManagerGameSetting()
+        private void Setting()
         {
-            if (!m_IsTestSceneStage)
-            {
-                m_CurrentStage = SaveManager.CurrentStageNo;
-                m_DisplayStage = SaveManager.DisplayStage;
+            GameMediator.m_GameUIManager.GameSetting();
+
+            bool isLoadTest = false;
+            m_CurrentStage = SaveManager.CurrentStageNo;
+            m_DisplayStage = SaveManager.DisplayStage;
 
 #if UNITY_EDITOR
-                if (EditorPrefs.HasKey("DebugStageNo") && EditorPrefs.GetInt("DebugStageNo") > 0)
-                {
-                    m_CurrentStage = EditorPrefs.GetInt("DebugStageNo");
-                    EditorPrefs.SetInt("DebugStageNo", 0);
-                }
+            if (EditorPrefs.HasKey("DebugStageNo") && EditorPrefs.GetInt("DebugStageNo") > 0)
+            {
+                m_CurrentStage = EditorPrefs.GetInt("DebugStageNo");
+                m_DisplayStage = m_CurrentStage;
+                EditorPrefs.SetInt("DebugStageNo", 0);
+                isLoadTest = true;
+            }
 #endif
 
+            GameMediator.m_StageManager.GetSceneStage();
+            if (isLoadTest || GameMediator.m_StageManager.StageDataCur == null)
+            {
                 m_IsCalShowIntersititial = m_DisplayStage >= m_StartCalShowIntersititial;
 
-                _StageManager.LoadStage(ref m_CurrentStage, ref m_ReplayStage);
-                m_GameUIManager.FadeInStand();
-                ChangeState(GameState.Main);
+                GameMediator.m_StageManager.LoadStage(ref m_CurrentStage, ref m_ReplayStage);
+                GameMediator.m_GameUIManager.FadeInStand();
             }
-            else
-            {
-                _StageManager.GetSceneStage();
-                StageData stageData = _StageManager.StageDataCur;
-                if (stageData == null)
-                {
-                    return;
-                }
-                stageData.Initialize(m_Instance);
-                SetStageValue(stageData);
-                m_GameUIManager.GameSetting();
-                ChangeState(GameState.Main);
-            }
-            m_GameUIManager.FadeIn();
+            ChangeState(GameState.Main);
+            SetStageValue(GameMediator.m_StageManager.StageDataCur);
+            GameMediator.m_GameUIManager.FadeIn();
         }
 
         private void SetStageValue(StageData stageData)
         {
-            m_GameUIManager.SetStageTitle(m_DisplayStage);
-        }
-
-        public override void GameSetting()
-        {
-            ManagerGameSetting();
-
-            //m_GameUIManager.GameSetting();
+            GameMediator.m_GameUIManager.SetStageTitle(m_DisplayStage);
         }
 
         void Start()
         {
             //IronSourceManager.ShowBanner();
-            Initialize();
+            Init();
         }
 
         void Update()
@@ -197,11 +165,11 @@ namespace UnityGame.App.Manager
                     m_Update = null;
                     break;
                 case GameState.FadeOut:
-                    m_GameUIManager.FadeOut();
+                    GameMediator.m_GameUIManager.FadeOut();
                     m_Update = FadeOutUpdate;
                     break;
             }
-            m_GameUIManager.ChangeState(state);
+            GameMediator.m_GameUIManager.ChangeState(state);
         }
 
         public void CalShowIntersititial()
@@ -214,22 +182,20 @@ namespace UnityGame.App.Manager
 
         private void MainUpdate()
         {
-            if (!m_GameUIManager.IsFadeBlack())
+            if (!GameMediator.m_GameUIManager.IsFadeBlack())
             {
                 ChangeState(GameState.Play);
             }
-            //m_GameUIManager.SetFever(m_FishManager.m_FeverOnRate);
         }
 
         private void PlayUpdate()
         {
             //m_StageManager.SystemUpdate();
-            m_GameUIManager.SystemUpdate();
+            GameMediator.m_GameUIManager.SystemUpdate();
         }
 
         private void GameClearUpdate()
         {
-            //Debug.Log($"CheckClearEffect:{CheckClearEffect()}");
         }
 
         private void GameOverAnimationUpdate()
@@ -238,17 +204,15 @@ namespace UnityGame.App.Manager
 
         private void FadeOutUpdate()
         {
-            if (m_GameUIManager.IsFadeBlack())
+            if (GameMediator.m_GameUIManager.IsFadeBlack())
             {
                 ReloadGameScecne();
             }
         }
 
-        WaitForEndOfFrame waitFrame = new WaitForEndOfFrame();
-
         private void GameClearAnimationUpdate()
         {
-            m_GameUIManager.SystemUpdate();
+            GameMediator.m_GameUIManager.SystemUpdate();
             m_ClearDelayTimeCurrent += Time.deltaTime;
             if (m_ClearDelayTimeCurrent >= m_ClearDelayTime)
             {
@@ -278,16 +242,14 @@ namespace UnityGame.App.Manager
         {
             if (m_GameState == GameState.Play)
             {
+                SaveManager.SetStageClear(m_CurrentStage, StageAssets.StageState.NotClear);
+                SaveManager.Save();
                 ChangeState(GameState.GameOver);
 #if !UNITY_EDITOR && (UNITY_IOS || UNITY_ANDROID)
 #if USE_GAMEANLYTICS
                 GameAnalyticsManager.SendEventOnStageFail(m_CurrentStage);
 #endif
 #endif
-
-                //Invoke("ShowGameoverUI", 3.8f);
-                //Invoke("ReplayLevel", 3.8f);
-                //ReplayLevel();
             }
         }
 
@@ -311,9 +273,6 @@ namespace UnityGame.App.Manager
 #endif
 
                 SaveManager.SetStageClear(m_CurrentStage, StageAssets.StageState.Clear);
-                SaveManager.SetCurrentStageNo(m_CurrentStage + 1);
-                SaveManager.CreaseDisplayStage();
-                SaveManager.SetBonusStageCountNext();
                 SaveManager.Save();
                 ChangeState(GameState.GameClear);
             }
@@ -335,22 +294,16 @@ namespace UnityGame.App.Manager
 
         public void NextLevel()
         {
-            //Debug.Log($"NextLevel");
-            //Debug.Log($"CurrentStage:{SaveManager.GetCurrentStage()}");
-            //int maxIndex = m_StageManager.GetMaxStageIndex();
-            int nextIndex = m_CurrentStage + 1; //SaveManager.GetIsAllStageClear(maxIndex) ? 1 : m_CurrentStage + 1;//RNGCryptoServiceProviderExtensions.Next(1, maxIndex + 1) : m_CurrentStage + 1;
-            PlayerPrefs.SetInt("CurrentLevel", nextIndex);
             ChangeState(GameState.FadeOut);
             //ReloadGameScecne();
         }
 
         private void ReloadGameScecne()
         {
-            m_StageManager.ReleaseStatge();
             SceneManager.LoadScene("Game");
         }
 
-#region Public method
+        #region Public method
         public bool CheckClearEffect()
         {
             bool isStopped = true;
@@ -363,22 +316,8 @@ namespace UnityGame.App.Manager
 
         public void SetStageBar(float rate)
         {
-            m_GameUIManager.SetStageBar(rate);
+            GameMediator.m_GameUIManager.SetStageBar(rate);
         }
-#endregion
-
-#region Get parameter
-        public bool GetIsLevelClear()
-        {
-            return m_IsLevelClear;
-        }
-
-        public int GetDisplayLevel()
-        {
-            return m_DisplayLevel;
-        }
-
-#endregion
-
+        #endregion
     }
 }

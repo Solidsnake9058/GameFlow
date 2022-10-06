@@ -29,14 +29,14 @@ namespace UnityGame.App.Manager
             m_GameClearUI.GameSetting();
         }
 
-        public override void Initialize(GameManager gameManager)
+        public override void Initialize()
         {
-            base.Initialize(gameManager);
-            m_MainUI.Initialize(m_GameManager);
-            m_GameUI.Initialize(m_GameManager);
-            m_GameOverUI.Initialize(m_GameManager);
-            m_GameClearUI.Initialize(m_GameManager);
-            m_FadeUI.Initialize(m_GameManager);
+            base.Initialize();
+            m_MainUI.Initialize();
+            m_GameUI.Initialize();
+            m_GameOverUI.Initialize();
+            m_GameClearUI.Initialize();
+            m_FadeUI.Initialize();
         }
 
         public override void Pause()
@@ -68,15 +68,9 @@ namespace UnityGame.App.Manager
                     break;
                 case GameState.GameOver:
                     m_GameOverUI.ShowUI();
-                    //m_Update = WinUpdate;
                     break;
                 case GameState.GameClear:
-                    if (m_GameManager.GetIsLevelClear())
-                    {
-                        m_GameUI.HideUI();
-                    }
                     m_GameClearUI.ShowUI();
-                    //m_Update = WinUpdate;
                     break;
             }
         }
@@ -102,7 +96,6 @@ namespace UnityGame.App.Manager
         private void PlayUpdate()
         {
             m_GameUI.SystemUpdate();
-            //m_GameInfoUI.SystemUpdate();
         }
 
         private void EmptyUpdate()

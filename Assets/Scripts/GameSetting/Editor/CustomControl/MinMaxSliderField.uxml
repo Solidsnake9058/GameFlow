@@ -1,0 +1,6 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" xsi="http://www.w3.org/2001/XMLSchema-instance" engine="UnityEngine.UIElements" editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../../../../../UIElementsSchema/UIElements.xsd" editor-extension-mode="True">
+    <Style src="project://database/Assets/Scripts/GameSetting/Editor/CustomControl/MinMaxSliderField.uss?fileID=7433441132597879392&amp;guid=063d7cef0357f420d9c821548fa5e565&amp;type=3#MinMaxSliderField" />
+    <ui:MinMaxSlider picking-mode="Ignore" min-value="10" max-value="12" low-limit="-10" high-limit="40" name="min-max-slider" />
+    <uie:FloatField value="42.2" name="min-value" />
+    <uie:FloatField value="42.2" name="max-value" />
+</ui:UXML>

@@ -1,16 +1,18 @@
-﻿using System.Collections;
-using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
+using UnityEngine.UIElements;
+using UnityEditor.UIElements;
 
 namespace UnityGame.Data
 {
-    public abstract class SettingBaseEditor : Editor
+    public abstract class SettingBaseEditor : EditorWindow
     {
         public const string ControlTextName = "ControlTextName";
+        protected const string CustomFoldOutClass = "group-foldout-field";
 
         protected SettingBase m_Asset;
-        protected Editor m_Editor;
+        protected EditorWindow m_Editor;
+        public VisualElement m_Root;
         protected Vector2 m_ScrollPosition;
         protected string m_Path;
 
@@ -19,41 +21,13 @@ namespace UnityGame.Data
         public virtual void Setup(SettingBase asset)
         {
             m_Asset = asset;
-            m_Editor = CreateEditor(asset) as Editor;
+            //m_Editor = CreateEditor(asset) as EditorWindow;
+            CreateGUI();
         }
 
-        public abstract void OnGUI();
+        public abstract void CreateGUI();
         public virtual void OnPreSave() { }
         public virtual void OnPostSave() { }
-        public virtual void OnDestroy() { }
-
-        public void SetAssetPath(string path)
-        {
-            m_Path = path;
-        }
-
-        protected void BeginGUI()
-        {
-            EditorGUI.BeginChangeCheck();
-            EditorGUILayout.BeginVertical(GUILayout.ExpandWidth(true));
-
-            GUI.SetNextControlName(ControlTextName);
-            EditorGUILayout.PropertyField(m_Editor.serializedObject.FindProperty("SettingName"), new GUIContent("Object Name"), true);
-
-            GUILayout.Space(20);
-            m_ScrollPosition = EditorGUILayout.BeginScrollView(m_ScrollPosition);
-        }
-
-        protected void EndGUI()
-        {
-            EditorGUILayout.EndScrollView();
-            EditorGUILayout.EndVertical();
-            if (EditorGUI.EndChangeCheck())
-            {
-                m_Editor.serializedObject.ApplyModifiedProperties();
-                EditorUtility.SetDirty(m_Asset);
-            }
-        }
 
         public string GetSettingName()
         {

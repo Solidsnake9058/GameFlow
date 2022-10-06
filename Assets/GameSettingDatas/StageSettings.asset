@@ -9,9 +9,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ee32f2ce764314beba9e0b53c3c09d08, type: 3}
+  m_Script: {fileID: 11500000, guid: dd940e3851c32480184763a4aa714f96, type: 3}
   m_Name: StageSettings
   m_EditorClassIdentifier: 
-  SettingName: "\u30B9\u30C6\u30FC\u30B8\u8A2D\u5B9A"
+  SettingName: StageSettings
   ShowOrder: 0
   m_StageDatas: []

@@ -48,8 +48,10 @@ namespace UnitySingleton.Common
                 instance = GetComponent<T>();
                 DontDestroyOnLoad(gameObject);
             }
-            else if (instance != GetComponent<T>())
+            else
+            {
                 Destroy(gameObject);
+            }
             return instance;
         }
     }

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+using UnityGame.App.Manager;
 
 public class GameOverUI : IGameUISystem
 {
@@ -23,11 +24,11 @@ public class GameOverUI : IGameUISystem
 
     public void TransAnimaFin()
     {
-        m_GameManager.ReplayLevel();
+        GameMediator.m_GameManager.ReplayLevel();
     }
 
     private void RetryGame()
     {
-        m_GameManager.ReplayLevel();
+        GameMediator.m_GameManager.ReplayLevel();
     }
 }

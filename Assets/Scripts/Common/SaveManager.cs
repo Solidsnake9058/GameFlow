@@ -7,7 +7,7 @@ using System;
 
 public class SaveManager : MonoBehaviourProtectedSingleton<SaveManager>
 {
-#region BaseFunction
+    #region BaseFunction
     private static PlayerSaveData GameData = null;
 
     protected override void Awake()
@@ -61,16 +61,17 @@ public class SaveManager : MonoBehaviourProtectedSingleton<SaveManager>
     #region GameControlFunction
     //Stage
     public static int DisplayStage => GameData.m_DisplayStage;
-
-    public static void SetCurrentStageNo(int no) => GameData.m_CurrentStageNo = no;
+    public static void IncreaseDisplayStage() => GameData.m_DisplayStage++;
     public static int CurrentStageNo => GameData.m_CurrentStageNo;
-    public static void CreaseDisplayStage() => GameData.m_DisplayStage++;
+    public static void SetCurrentStageNo(int no) => GameData.m_CurrentStageNo = no;
+    public static void IncreaseCurrentStageNo() => GameData.m_CurrentStageNo++;
     //bonus
     public static int BonusStageCount => GameData.m_BonusStageCount;
-    public static void SetBonusStageCountNext() => GameData.m_BonusStageCount++;
+    public static void IncreaseBonusStageCount() => GameData.m_BonusStageCount++;
     public static void ResetBonusStageCount() => GameData.m_BonusStageCount = 0;
-    public static int BonusStageIndex => Mathf.Max(GameData.m_BonusStageIndex, 1);
-    public static void SetBonusStageIndex(int index) => GameData.m_BonusStageIndex = index;
+    public static int BonusStageIndex => Mathf.Max(GameData.m_BonusStage, 1);
+    public static void SetBonusStageIndex(int index) => GameData.m_BonusStage = index;
+    public static void IncreaseBonusStage() => GameData.m_BonusStage++;
     public static bool IsBonusStage => GameData.m_IsBonusOn;
     public static void SetIsBonusStage(bool isOn) => GameData.m_IsBonusOn = isOn;
     //Player data
@@ -81,23 +82,31 @@ public class SaveManager : MonoBehaviourProtectedSingleton<SaveManager>
 
     public static void SetStageClear(int index, StageAssets.StageState state)
     {
-        StageAssets.StageState temp = (StageAssets.StageState)Mathf.Min((int)Enum.GetNames(typeof(StageAssets.StageState)).Length - 1, (int)state);
+        StageAssets.StageState temp = (StageAssets.StageState)Mathf.Min((int)Enum.GetValues(typeof(StageAssets.StageState)).Cast<StageAssets.StageState>().Max(), (int)state);
         if (GameData.m_StageData.ContainsKey(index))
         {
             GameData.m_StageData[index].m_StageState = (StageAssets.StageState)Mathf.Max((int)GameData.m_StageData[index].m_StageState, (int)temp);
+            GameData.m_StageData[index].m_PlayedTimes++;
+            if (state >= StageAssets.StageState.Clear)
+            {
+                GameData.m_StageData[index].m_ClearedTimes++;
+            }
         }
         else
         {
             GameData.m_StageData.Add(index, new StageAssets(temp));
             GameData.m_StageData.Add(index + 1, new StageAssets(StageAssets.StageState.NotClear));
         }
+        IncreaseCurrentStageNo();
+        IncreaseDisplayStage();
+        IncreaseBonusStageCount();
     }
 
     public static bool GetIsStagePlayable(int index)
     {
         if (GameData.m_StageData.ContainsKey(index))
         {
-            return true;
+            return GameData.m_StageData[index].m_StageState >= StageAssets.StageState.NotClear;
         }
         return false;
     }
@@ -113,7 +122,7 @@ public class SaveManager : MonoBehaviourProtectedSingleton<SaveManager>
 
     public static bool IsStageCleared(int index)
     {
-        return GetStageState(index).Equals(StageAssets.StageState.Clear);
+        return GetStageState(index) >= StageAssets.StageState.Clear;
     }
 
     public static bool GetIsAllStageClear(int maxStageIndex)

@@ -1,0 +1,17 @@
+.open-asset {
+    background-color: rgb(0, 0, 255);
+}
+
+.min-max-input Label {
+    min-width: 30px;
+}
+
+.group-foldout-field {
+    color: rgb(248, 71, 126);
+    -unity-font-style: bold;
+    font-size: 14px;
+}
+
+.unity-float-field {
+    min-width: 50px;
+}

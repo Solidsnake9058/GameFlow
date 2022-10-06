@@ -1,0 +1,14 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" xsi="http://www.w3.org/2001/XMLSchema-instance" engine="UnityEngine.UIElements" editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../../../../UIElementsSchema/UIElements.xsd" editor-extension-mode="True">
+    <Style src="project://database/Assets/Scripts/GameSetting/Editor/DataEditor.uss?fileID=7433441132597879392&amp;guid=d16d7b47fec084fb8b6f14fb31bddb6a&amp;type=3#DataEditor" />
+    <Style src="project://database/Assets/Scripts/GameSetting/Editor/SettingBaseEditor.uss?fileID=7433441132597879392&amp;guid=43a1b8509402e4271b0f7ce2d4884be5&amp;type=3#SettingBaseEditor" />
+    <ui:VisualElement name="BaseView" style="flex-grow: 1; flex-direction: row;">
+        <ui:ListView focusable="true" name="SettingListView" class="setting-list" style="width: 130px; max-width: 130px; border-left-width: 1px; border-right-width: 1px; border-top-width: 1px; border-bottom-width: 1px; border-left-color: rgb(0, 0, 0); border-right-color: rgb(0, 0, 0); border-top-color: rgb(0, 0, 0); border-bottom-color: rgb(0, 0, 0);" />
+        <ui:VisualElement name="SettiingView" style="flex-grow: 1; border-left-width: 1px; border-right-width: 1px; border-top-width: 1px; border-bottom-width: 1px; border-left-color: rgb(255, 0, 0); border-right-color: rgb(255, 0, 0); border-top-color: rgb(255, 0, 0); border-bottom-color: rgb(255, 0, 0); margin-left: 1px;">
+            <ui:VisualElement name="TopView">
+                <ui:TextField picking-mode="Ignore" label="Object Name" value="filler text" name="SettingName" readonly="true" class="object-name" style="font-size: 14px;" />
+            </ui:VisualElement>
+            <ui:VisualElement name="ContentView" />
+        </ui:VisualElement>
+    </ui:VisualElement>
+    <ui:Button text="セーブ" display-tooltip-when-elided="true" name="SaveButton" style="height: 30px; max-height: 30px; -unity-font-style: bold; font-size: 16px; color: rgb(0, 0, 255); margin-bottom: 8px;" />
+</ui:UXML>

@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using UnityEngine.Video;
+using UnityGame.App.Manager;
 
 public class GameClearUI : IGameUISystem
 {
@@ -94,12 +95,12 @@ public class GameClearUI : IGameUISystem
 
     private void Restart()
     {
-        m_GameManager.ReplayLevel();
+        GameMediator.m_GameManager.ReplayLevel();
     }
 
     private void NextLevelButton()
     {
-        m_GameManager.NextLevel();
+        GameMediator.m_GameManager.NextLevel();
     }
 
     private void VideoAdsButtonClick()

@@ -7,12 +7,10 @@ using UnityGame.App.Manager;
 
 public abstract class IGameItem : MonoBehaviour
 {
-    protected GameManager m_GameManager = null;
     private Action m_ReleaseAction;
 
-    public virtual void Initialize(GameManager gameManager)
+    public virtual void Initialize()
     {
-        m_GameManager = gameManager;
     }
     public virtual void SystemUpdate() { }
     public virtual void SystemFixedUpdate() { }

@@ -10,7 +10,10 @@ namespace UnityGame.Data
         public int ShowOrder;
 
 #if UNITY_EDITOR
-        public abstract string GetEditorName();
+        public virtual string GetEditorName()
+        {
+            return $"{this.GetType().Name}Editor";
+        }
 #endif
     }
 }

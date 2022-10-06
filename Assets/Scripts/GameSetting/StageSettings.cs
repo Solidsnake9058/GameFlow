@@ -1,9 +1,6 @@
-﻿using System;
-using System.Collections;
+using System;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityGame.Data;
-using System.Linq;
 //using Newtonsoft.Json;
 #if UNITY_EDITOR
 using UnityEditor;
@@ -13,28 +10,32 @@ using UnityEditor.AddressableAssets.Settings.GroupSchemas;
 
 namespace UnityGame.Data
 {
-    [CreateAssetMenu(fileName = "StageSettings", menuName = "SettingData/StageSettings")]
+    using System.Linq;
+
+    [CreateAssetMenu(fileName = "StageSettings", menuName = "ScriptableObject/StageSettings")]
     public class StageSettings : SettingBase
     {
         public List<StageSetting> m_StageDatas;
 
         public StageSetting GetStageSetting(int level)
         {
-            for (int i = 0; i < m_StageDatas.Count; i++)
-            {
-                if (m_StageDatas[i].m_StageNo == level)
-                {
-                    return m_StageDatas[i];
-                }
-            }
-            return null;
+            var stage = m_StageDatas.Where(x => x.m_StageNo.Equals(level)).FirstOrDefault();
+            return stage;
+            //for (int i = 0; i < m_StageDatas.Count; i++)
+            //{
+            //    if (m_StageDatas[i].m_StageNo == level)
+            //    {
+            //        return m_StageDatas[i];
+            //    }
+            //}
+            //return null;
         }
 
 #if UNITY_EDITOR
-        public override string GetEditorName()
-        {
-            return "StageSettingsEditor";
-        }
+        //public override string GetEditorName()
+        //{
+        //    return "StageSettingsEditor";
+        //}
 
         public void LoadPrefab()
         {
@@ -74,12 +75,11 @@ namespace UnityGame.Data
 #endif
 
         [System.Serializable]
-        public class StageSetting : SortingObject
+        public class StageSetting
         {
             public int m_StageNo;
             public string m_Guid;
             public string m_Name;
-            public int m_FailToStage = 0;
             public bool m_IsCheck;
 #if UNITY_EDITOR
             public StageData m_StageData { get; set; }

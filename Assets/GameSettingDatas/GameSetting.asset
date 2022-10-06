@@ -1,0 +1,39 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d4b2dce31d4c74c97ad268548d99495a, type: 3}
+  m_Name: GameSetting
+  m_EditorClassIdentifier: 
+  SettingName: GameSetting
+  ShowOrder: 0
+  System:
+    StaminaBase: 0
+    StaminaIncrease: 0
+    StaminaColorMax: {r: 0, g: 0, b: 0, a: 0}
+    StaminaColorMin: {r: 0, g: 0, b: 0, a: 0}
+    StaminaReduce: 0
+    SpeedGangIncrease: 0
+    SpeedGangReduce: 0
+    JumpSpeed: {x: 0.1, y: 0.1}
+    CalorieReduceBase: 0
+    WeightMin: 0
+    WeightNormal: 0
+    WeightMax: 0
+    ClearResultMin: 0
+    ClearResultMax: 0
+    ResultGangSpeed: 0
+    ResultDelayTime: 0
+    SweatEachPoint: 0
+    SweatCountRate: []
+    JumpRopeCoinBase: 0
+    CoinJumpForce: 0
+    CoinJumpTime: 0
+    CoinJumpFinalScale: 0

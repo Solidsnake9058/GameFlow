@@ -2,12 +2,13 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityGame.App.Manager;
 
 public class StartPress : IGameItem, IPointerDownHandler, IPointerUpHandler
 {
     public void OnPointerDown(PointerEventData eventData)
     {
-        m_GameManager.StartGame();
+        GameMediator.m_GameManager.StartGame();
         //m_GameManager.GamePointerDown(eventData);
     }
 

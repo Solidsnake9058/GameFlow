@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityGame.App.Manager;
 
 public class MainUI : IGameUISystem
 {
@@ -12,12 +13,11 @@ public class MainUI : IGameUISystem
 
     public override void GameSetting()
     {
-        m_StartPress.Initialize(m_GameManager);
-        m_StartButton.onClick.AddListener(StartGame);
+        //m_StartButton.onClick.AddListener(StartGame);
     }
 
     private void StartGame()
     {
-        m_GameManager.StartGame();
+        //GameMediator.m_GameManager.StartGame();
     }
 }

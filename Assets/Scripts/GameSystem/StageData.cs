@@ -14,19 +14,5 @@ public class StageData : IGameItem
         };
 
         return stageData;
-    }
-
-#if TEST_MODE
-    private void Start()
-    {
-        GameSetting();
-    }
-
-    private void Update()
-    {
-        SystemUpdate();
-    }
-#endif
-
-    
+    }    
 }
