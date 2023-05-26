@@ -95,10 +95,16 @@ public class SaveManager : MonoBehaviourProtectedSingleton<SaveManager>
         else
         {
             GameData.m_StageData.Add(index, new StageAssets(temp));
-            GameData.m_StageData.Add(index + 1, new StageAssets(StageAssets.StageState.NotClear));
+            if (!GameData.m_StageData.ContainsKey(index + 1))
+            {
+                GameData.m_StageData.Add(index + 1, new StageAssets(StageAssets.StageState.NotClear));
+            }
         }
         IncreaseCurrentStageNo();
-        IncreaseDisplayStage();
+        if (state >= StageAssets.StageState.Clear)
+        {
+            IncreaseDisplayStage();
+        }
         IncreaseBonusStageCount();
     }
 

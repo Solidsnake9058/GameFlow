@@ -106,6 +106,8 @@ namespace UnityGame.Data
                     }
                 }
             });
+            List<SettingBaseEditor> temp= m_DataEditor.OrderByDescending(x => x.Order).ToList();
+
             m_DataEditor = m_DataEditor.OrderByDescending(x => x.Order).ToList();
         }
     }

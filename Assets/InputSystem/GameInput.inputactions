@@ -6,37 +6,28 @@
             "id": "f06e92f8-c8ee-439a-b4e4-97a581b27857",
             "actions": [
                 {
-                    "name": "Touch",
-                    "type": "PassThrough",
-                    "id": "329d7485-8c9a-40b3-82dd-20b2cfddb32f",
-                    "expectedControlType": "",
+                    "name": "TouchDelta",
+                    "type": "Value",
+                    "id": "1af257ab-4c10-4a83-b59c-b65c19c386f7",
+                    "expectedControlType": "Vector2",
                     "processors": "",
                     "interactions": "",
-                    "initialStateCheck": false
+                    "initialStateCheck": true
+                },
+                {
+                    "name": "TouchPosition",
+                    "type": "Value",
+                    "id": "7677802c-aed1-4381-bab2-68a663a1e920",
+                    "expectedControlType": "Vector2",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": true
                 },
                 {
                     "name": "TouchPress",
                     "type": "Button",
-                    "id": "d28a5c5f-1be0-479b-b361-34eb384c5425",
+                    "id": "eec485e0-b96a-4609-ab1c-d4e31ebfe663",
                     "expectedControlType": "Button",
-                    "processors": "",
-                    "interactions": "",
-                    "initialStateCheck": false
-                },
-                {
-                    "name": "TouchPosition",
-                    "type": "PassThrough",
-                    "id": "311991bd-513f-4380-8662-e614b27148e7",
-                    "expectedControlType": "Vector2",
-                    "processors": "",
-                    "interactions": "",
-                    "initialStateCheck": false
-                },
-                {
-                    "name": "TouchDelta",
-                    "type": "PassThrough",
-                    "id": "1af257ab-4c10-4a83-b59c-b65c19c386f7",
-                    "expectedControlType": "Vector2",
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
@@ -44,30 +35,74 @@
             ],
             "bindings": [
                 {
-                    "name": "",
-                    "id": "fe401e07-9a2c-4857-ab67-cd3664751892",
-                    "path": "<Touchscreen>/primaryTouch",
+                    "name": "2D Vector",
+                    "id": "bbd8c052-c247-4704-a3fb-d28ca84bb8c3",
+                    "path": "2DVector",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "Touch",
-                    "isComposite": false,
+                    "action": "TouchDelta",
+                    "isComposite": true,
                     "isPartOfComposite": false
                 },
                 {
-                    "name": "",
-                    "id": "746b45d1-f5de-406f-b485-711ce4e68a5d",
-                    "path": "<Touchscreen>/primaryTouch/press",
-                    "interactions": "Press(behavior=2)",
+                    "name": "up",
+                    "id": "a123113c-52ed-458c-926e-3e2b2fb76432",
+                    "path": "<Keyboard>/w",
+                    "interactions": "",
                     "processors": "",
-                    "groups": "",
-                    "action": "TouchPress",
+                    "groups": "Keyboard",
+                    "action": "TouchDelta",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "down",
+                    "id": "fc448167-21b6-4e5e-94ed-e6b6e147a559",
+                    "path": "<Keyboard>/s",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard",
+                    "action": "TouchDelta",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "left",
+                    "id": "578ab12e-42a5-4817-bb5b-65a3c6b376ca",
+                    "path": "<Keyboard>/a",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard",
+                    "action": "TouchDelta",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "right",
+                    "id": "bfa6e9ee-8a5b-4115-bc2c-3a266cede216",
+                    "path": "<Keyboard>/d",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard",
+                    "action": "TouchDelta",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "",
+                    "id": "85e01898-b216-4bb0-a5d2-86ce53a79af5",
+                    "path": "<Touchscreen>/primaryTouch/delta",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Phone",
+                    "action": "TouchDelta",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
                 {
                     "name": "",
-                    "id": "b639ddef-373a-4ee3-8fbd-02bfbf34c8ab",
+                    "id": "6006e155-3d98-4591-b68e-a6f04f7700a7",
                     "path": "<Touchscreen>/primaryTouch/position",
                     "interactions": "",
                     "processors": "",
@@ -78,17 +113,79 @@
                 },
                 {
                     "name": "",
-                    "id": "eaecc08e-4e10-4c40-a372-de933c7101c1",
-                    "path": "<Touchscreen>/primaryTouch/delta",
+                    "id": "29eecc6f-8539-45e1-8ad6-3b766e5f94e9",
+                    "path": "<Keyboard>/anyKey",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard",
+                    "action": "TouchPress",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "3728550f-87ca-44f4-8f3f-66fc12015f99",
+                    "path": "<Touchscreen>/Press",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Phone",
+                    "action": "TouchPress",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
+        },
+        {
+            "name": "GameTouchStart",
+            "id": "b12114a4-2ea0-4d93-bfcd-744cac5eee3c",
+            "actions": [
+                {
+                    "name": "TouchPress",
+                    "type": "Button",
+                    "id": "60fb50dd-aae5-494b-9eac-b07598b3a240",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "535ac95b-9a03-4636-94db-597124c35dd3",
+                    "path": "<Touchscreen>/primaryTouch/press",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "TouchDelta",
+                    "action": "TouchPress",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }
             ]
         }
     ],
-    "controlSchemes": []
+    "controlSchemes": [
+        {
+            "name": "Phone",
+            "bindingGroup": "Phone",
+            "devices": [
+                {
+                    "devicePath": "<Touchscreen>",
+                    "isOptional": false,
+                    "isOR": false
+                }
+            ]
+        },
+        {
+            "name": "Keyboard",
+            "bindingGroup": "Keyboard",
+            "devices": [
+                {
+                    "devicePath": "<Keyboard>",
+                    "isOptional": false,
+                    "isOR": false
+                }
+            ]
+        }
+    ]
 }

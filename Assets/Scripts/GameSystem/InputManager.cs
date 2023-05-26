@@ -12,6 +12,8 @@ public class InputManager : IGameItem
     public Vector2 m_TouchCurrent { get; private set; }
     public Vector2 m_TouchDelta { get; private set; }
     public Vector2 m_TouchDeltaFix => m_TouchDelta * m_TouchRate;
+    public Vector2 m_TouchStartDelta { get; private set; }
+    public Vector2 m_TouchStartDeltaFix => m_TouchStartDelta * m_TouchRate;
 
     //iPhone 6 :Resolution 750X1334, desity :2
     private Vector2 m_BaseResolution = new Vector2(750, 1334);
@@ -23,6 +25,7 @@ public class InputManager : IGameItem
     public bool m_IsDragging { get { return _IsDragging; } }
     private Action m_PointerDownEvent;
     private Action m_PointerUpEvent;
+    private Action m_StartTouchAction;
 
     public void SetPointerEvent(Action pointerDownEvent, Action pointerUpEvent)
     {
@@ -36,9 +39,12 @@ public class InputManager : IGameItem
         SetScreenRate();
 
         m_GameInput = new GameInput();
-        m_GameInput.GameTouchMain.Enable();
-        m_GameInput.GameTouchMain.TouchPress.started += ctx => TouchPressStarted(ctx);
-        m_GameInput.GameTouchMain.TouchPress.canceled += ctx => TouchPressCanceled(ctx);
+        m_GameInput.GameTouchStart.Enable();
+        m_GameInput.GameTouchStart.TouchPress.started += ctx => StartTouchPressStarted(ctx);
+
+        //m_GameInput.GameTouchMain.Enable();
+        //m_GameInput.GameTouchMain.TouchPress.started += ctx => TouchPressStarted(ctx);
+        //m_GameInput.GameTouchMain.TouchPress.canceled += ctx => TouchPressCanceled(ctx);
     }
 
     private void SetScreenRate()
@@ -49,7 +55,8 @@ public class InputManager : IGameItem
 
         float touchRateWidth = m_BaseResolution.x / Screen.width;
         float touchRateHeight = m_BaseResolution.y / Screen.height;
-        m_TouchRate = Mathf.Max(touchRateWidth, touchRateHeight);
+        m_TouchRate = Mathf.Min(touchRateWidth, touchRateHeight);
+        m_TouchRate = Mathf.Max(m_TouchRate, 1);
 
         if (screenRate <= _ScreenRate)
         {
@@ -59,16 +66,32 @@ public class InputManager : IGameItem
         _ScreenRate = (float)newWidth / newHeight;
     }
 
+    public void SetStartTouceAction(Action action)
+    {
+        m_StartTouchAction = action;
+    }
+
     public void EnableTouch()
     {
+        Debug.Log("EnableTouch");
         m_GameInput.GameTouchMain.Enable();
+        m_GameInput.GameTouchMain.TouchPress.started += ctx => TouchPressStarted(ctx);
+        m_GameInput.GameTouchMain.TouchPress.canceled += ctx => TouchPressCanceled(ctx);
     }
 
     public void DisableTouch()
     {
         m_GameInput.GameTouchMain.Disable();
+        m_GameInput.GameTouchMain.TouchPress.RemoveAction();
         StopAllCoroutines();
         Reset();
+    }
+
+    private void StartTouchPressStarted(InputAction.CallbackContext context)
+    {
+        m_StartTouchAction?.Invoke();
+        EnableTouch();
+        m_GameInput.GameTouchStart.Disable();
     }
 
     private void TouchPressStarted(InputAction.CallbackContext context)
@@ -92,6 +115,7 @@ public class InputManager : IGameItem
         {
             m_TouchCurrent = m_GameInput.GameTouchMain.TouchPosition.ReadValue<Vector2>();
             m_TouchDelta = m_GameInput.GameTouchMain.TouchDelta.ReadValue<Vector2>();
+            m_TouchStartDelta = m_TouchCurrent - m_TouchStart;
             //Debug.Log($"Touch current:({m_TouchCurrent.x},{m_TouchCurrent.y}) delta:({m_TouchDelta.x},{m_TouchDelta.y})");
             yield return null;
         }
@@ -100,6 +124,28 @@ public class InputManager : IGameItem
     private void Reset()
     {
         _IsDragging = false;
-        m_TouchStart = m_TouchCurrent = m_TouchDelta = Vector2.zero;
+        m_TouchStart = m_TouchCurrent = m_TouchDelta = m_TouchStartDelta = Vector2.zero;
     }
+
+    private void OnEnable()
+    {
+        //m_GameInput.Start.Enable();
+        //m_GameInput.Start.TouchPress.started += ctx => TouchPressStarted(ctx);
+
+        //m_GameInputActions.Player.Enable();
+
+    }
+
+    private void OnDisable()
+    {
+        //m_GameInput.Start.Disable();
+        m_GameInput.GameTouchMain.Disable();
+    }
+
+    private void OnApplicationQuit()
+    {
+        m_GameInput.Dispose();
+        m_GameInput.Disable();
+    }
+
 }

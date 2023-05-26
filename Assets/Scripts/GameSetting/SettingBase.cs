@@ -12,7 +12,7 @@ namespace UnityGame.Data
 #if UNITY_EDITOR
         public virtual string GetEditorName()
         {
-            return $"{this.GetType().Name}Editor";
+            return $"{GetType().Name}Editor";
         }
 #endif
     }

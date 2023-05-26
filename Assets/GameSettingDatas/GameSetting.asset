@@ -14,15 +14,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   SettingName: GameSetting
   ShowOrder: 0
+  Player:
+    MoveSpeed: 4.83
+    SideMoveSpeed: 3
+    SideMoveRange: 5
   System:
-    StaminaBase: 0
+    StaminaBase: 44.5
     StaminaIncrease: 0
     StaminaColorMax: {r: 0, g: 0, b: 0, a: 0}
     StaminaColorMin: {r: 0, g: 0, b: 0, a: 0}
     StaminaReduce: 0
     SpeedGangIncrease: 0
     SpeedGangReduce: 0
-    JumpSpeed: {x: 0.1, y: 0.1}
+    JumpSpeed: {x: 2.2593958, y: 6.245973}
     CalorieReduceBase: 0
     WeightMin: 0
     WeightNormal: 0
@@ -32,7 +36,9 @@ MonoBehaviour:
     ResultGangSpeed: 0
     ResultDelayTime: 0
     SweatEachPoint: 0
-    SweatCountRate: []
+    SweatCountRate:
+    - StaminaRate: 0
+      PointCount: 0
     JumpRopeCoinBase: 0
     CoinJumpForce: 0
     CoinJumpTime: 0

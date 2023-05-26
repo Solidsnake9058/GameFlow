@@ -54,6 +54,10 @@ namespace UnityGame.Data
             m_StageSetting = stageSetting;
 
             m_ShowNO.text = $"{showNO}";
+            if (stageSetting.m_StageData == null && !String.IsNullOrWhiteSpace(stageSetting.m_Guid))
+            {
+                stageSetting.m_StageData = AssetDatabase.LoadAssetAtPath<StageData>(AssetDatabase.GUIDToAssetPath(stageSetting.m_Guid));
+            }
             m_PrefabField.value = stageSetting.m_StageData;
             m_PrefabField.RegisterValueChangedCallback(CheckPrafab);
             m_InnerNO.text = $"{stageSetting.m_StageNo}";
@@ -72,7 +76,7 @@ namespace UnityGame.Data
                     m_StageSetting.m_Name = evt.newValue.name;
                 }
             }
-            m_StageSettingsEditor.ReSetData();
+            m_StageSettingsEditor.RefreshItems();
         }
 
         private void SetButton()

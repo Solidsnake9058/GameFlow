@@ -58,6 +58,11 @@ namespace UnityGame.Data
             }
         }
 
+        public void RefreshItems()
+        {
+            m_StageListView.RefreshItems();
+        }
+
         private void BindStageListItem(VisualElement item, int index)
         {
             StageItemEditor stageItemEditor = item as StageItemEditor;

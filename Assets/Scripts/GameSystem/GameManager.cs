@@ -37,6 +37,7 @@ namespace UnityGame.App.Manager
         {
             return m_GameState == GameState.Play;
         }
+        public bool m_IsMainState => m_GameState == GameState.Start;
 
         private bool m_IsLevelClear = false;
         private int m_CurrentStage = 0;
@@ -77,17 +78,19 @@ namespace UnityGame.App.Manager
             Setting();
         }
 
-        public void StartGame()
+        public virtual bool StartGame()
         {
             Debug.Log("StartGame");
             if (m_GameState == GameState.Main)
             {
                 Debug.Log("Play");
                 ChangeState(GameState.Play);
+                return true;
             }
+            return false;
         }
 
-        private void Setting()
+        protected virtual void Setting()
         {
             GameMediator.m_GameUIManager.GameSetting();
 
@@ -108,7 +111,7 @@ namespace UnityGame.App.Manager
             GameMediator.m_StageManager.GetSceneStage();
             if (isLoadTest || GameMediator.m_StageManager.StageDataCur == null)
             {
-                m_IsCalShowIntersititial = m_DisplayStage >= m_StartCalShowIntersititial;
+                m_IsCalShowIntersititial = (m_DisplayStage - GameMediator.m_AppSetting.AD.AdInterstitialStartStageNo) % GameMediator.m_AppSetting.AD.AdInterstitialInterval == 0;
 
                 GameMediator.m_StageManager.LoadStage(ref m_CurrentStage, ref m_ReplayStage);
                 GameMediator.m_GameUIManager.FadeInStand();
@@ -180,12 +183,12 @@ namespace UnityGame.App.Manager
             }
         }
 
-        private void MainUpdate()
+        protected virtual void MainUpdate()
         {
-            if (!GameMediator.m_GameUIManager.IsFadeBlack())
-            {
-                ChangeState(GameState.Play);
-            }
+            //if (!GameMediator.m_GameUIManager.IsFadeBlack())
+            //{
+            //    ChangeState(GameState.Play);
+            //}
         }
 
         private void PlayUpdate()
@@ -238,7 +241,12 @@ namespace UnityGame.App.Manager
             ChangeState(GameState.Main);
         }
 
-        public void GameOver()
+        public void ToStart()
+        {
+            ChangeState(GameState.Start);
+        }
+
+        public virtual void GameOver()
         {
             if (m_GameState == GameState.Play)
             {
@@ -253,29 +261,34 @@ namespace UnityGame.App.Manager
             }
         }
 
-        public void GameClear()
+        public virtual void GameClear()
         {
             if (m_GameState == GameState.Play)
             {
+                GameClearRecord();
+                ChangeState(GameState.GameClear);
+            }
+        }
+
+        private void GameClearRecord()
+        {
+            SaveManager.SetStageClear(m_CurrentStage, StageAssets.StageState.Clear);
+            SaveManager.Save();
+
 #if !UNITY_EDITOR && (UNITY_IOS || UNITY_ANDROID)
 #if USE_TENJIN
-                if (m_TenjinClearEventStages.Contains(m_CurrentStage))
+                if (GameMediator.m_AppSetting.Analytics.TenjinClearEventStages.Contains(m_CurrentStage))
                 {
                     TenjinManager.SendEvent($"stage{m_CurrentStage}_complete");
                 }
 #endif
 #if USE_GAMEANLYTICS
-                if (!SaveManager.IsStageCleared(m_CurrentStage))
-                {
-                    GameAnalyticsManager.SendEventOnStageClear(m_CurrentStage);
-                }
-#endif
-#endif
-
-                SaveManager.SetStageClear(m_CurrentStage, StageAssets.StageState.Clear);
-                SaveManager.Save();
-                ChangeState(GameState.GameClear);
+            if (!SaveManager.IsStageCleared(m_CurrentStage))
+            {
+                GameAnalyticsManager.SendEventOnStageClear(m_CurrentStage);
             }
+#endif
+#endif
         }
 
         public void ReplayLevel()

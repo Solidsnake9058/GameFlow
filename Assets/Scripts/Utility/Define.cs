@@ -2,6 +2,7 @@ namespace UnityGame.App
 {
     public enum GameState
     {
+        Start,
         Main,
         Play,
         GameOver,
@@ -22,8 +23,15 @@ namespace UnityGame.App
     {
         Stand,
         Run,
+        RunCheck,
         Dead,
         Hide
+    }
+
+    public enum CreatorMode
+    {
+        Editing,
+        TestPlaying
     }
 
     public class Define

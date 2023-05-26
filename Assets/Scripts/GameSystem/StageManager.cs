@@ -74,7 +74,7 @@ namespace UnityGame.App.Manager
         /// </summary>
         /// <returns><c>true</c>, if stage was loaded, <c>false</c> level is not exists!.</returns>
         /// <param name="level">Level.</param>
-        public bool LoadStage(ref int stageNo, ref int failStage)
+        public virtual bool LoadStage(ref int stageNo, ref int failStage)
         {
             int reqStageNo = stageNo;
             if (m_StageSettings == null || m_StageSettings.m_StageDatas.Count == 0)
@@ -97,7 +97,17 @@ namespace UnityGame.App.Manager
             var order = m_StageSettings.m_StageDatas[stageIndex];
             var prefab = LoadStage(order);
             m_CurrentStageData = Instantiate(prefab);
-            return true;
+            return SetStageDate(m_CurrentStageData);
+        }
+
+        protected bool SetStageDate(StageData stageData)
+        {
+            if (stageData != null)
+            {
+                m_CurrentStageData = stageData;
+                return true;
+            }
+            return false;
         }
 
         public StageData LoadStage(StageSettings.StageSetting data)

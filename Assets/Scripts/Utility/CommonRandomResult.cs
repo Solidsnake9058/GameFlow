@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Security.Cryptography;
+using UnityEngine;
 
 public static class CommonRandomResult
 {
@@ -216,5 +217,64 @@ public static class CommonRandomResult
             }
         }
         return list;
+    }
+
+    public static Vector2 GetRandomPosition(Vector2 range)
+    {
+        return new Vector2(
+            RNGCryptoServiceProviderExtensions.NextFloat(range.x, range.y),
+            RNGCryptoServiceProviderExtensions.NextFloat(range.x, range.y)
+            );
+    }
+
+    public static Vector2 GetRandomPosition(Vector2 min, Vector2 max)
+    {
+        return new Vector2(
+            RNGCryptoServiceProviderExtensions.NextFloat(min.x, max.x),
+            RNGCryptoServiceProviderExtensions.NextFloat(min.y, max.y)
+            );
+    }
+
+    public static Vector3 GetRandomPosition(float min, float max)
+    {
+        return new Vector3(
+            RNGCryptoServiceProviderExtensions.NextFloat(min, max),
+            RNGCryptoServiceProviderExtensions.NextFloat(min, max),
+            RNGCryptoServiceProviderExtensions.NextFloat(min, max)
+            );
+    }
+
+    public static Vector3 GetRandomPosition(Vector3 min, Vector3 max)
+    {
+        return new Vector3(
+            RNGCryptoServiceProviderExtensions.NextFloat(min.x, max.x),
+            RNGCryptoServiceProviderExtensions.NextFloat(min.y, max.y),
+            RNGCryptoServiceProviderExtensions.NextFloat(min.z, max.z)
+            );
+    }
+
+    public static Quaternion GetRanAngle(float min, float max)
+    {
+        return Quaternion.Euler(GetRandomPosition(min, max));
+    }
+
+    public static Quaternion GetRanAngle(Vector3 min, Vector3 max)
+    {
+        return Quaternion.Euler(GetRandomPosition(min, max));
+    }
+
+    public static float GetRandomValue(float max)
+    {
+        return RNGCryptoServiceProviderExtensions.NextFloat(max);
+    }
+
+    public static float GetRandomValue(Vector2 range)
+    {
+        return GetRandomValue(range.x, range.y);
+    }
+
+    public static float GetRandomValue(float min, float max)
+    {
+        return RNGCryptoServiceProviderExtensions.NextFloat(min, max);
     }
 }

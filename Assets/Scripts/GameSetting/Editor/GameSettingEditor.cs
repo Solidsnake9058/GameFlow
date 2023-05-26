@@ -21,6 +21,13 @@ namespace UnityGame.Data
 
                 ScrollView scrollView = m_Root.Q<ScrollView>();
 
+                #region Player
+                Foldout playerField = new FoldoutExtend("プレイヤー", CustomFoldOutClass);
+                playerField.Add(new SliderExtend("移動スピード", "Player.MoveSpeed", so, true, 0.1f, 10));
+                playerField.Add(new SliderExtend("横移動スピード", "Player.SideMoveSpeed", so, true, 0.1f, 10));
+                playerField.Add(new SliderExtend("横移動範囲", "Player.SideMoveRange", so, true, 0, 15));
+                #endregion
+
                 #region Stamina
                 Foldout staminaField = new FoldoutExtend("体力 スタミナ", CustomFoldOutClass);
                 staminaField.Add(new SliderExtend("基礎体力", "System.StaminaBase", so, true, 0, 100));
@@ -57,6 +64,7 @@ namespace UnityGame.Data
                 //coinField.Add(new PropertyFieldExtend("効果飛ぶののEase", "System.CoinJumpEase", so));
                 #endregion
 
+                scrollView.Add(playerField);
                 scrollView.Add(staminaField);
                 scrollView.Add(caloriesField);
                 scrollView.Add(speedField);

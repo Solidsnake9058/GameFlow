@@ -10,9 +10,16 @@ namespace UnityGame.Data
     [CreateAssetMenu(fileName = "GameSetting", menuName = "ScriptableObject/GameSetting")]
     public class GameSetting : SettingBase
     {
+        public PlayerData Player = default;
         public SystemData System = default;
 
-
+        [Serializable]
+        public class PlayerData
+        {
+            public float MoveSpeed;
+            public float SideMoveSpeed;
+            public float SideMoveRange;
+        }
 
         [Serializable]
         public class SystemData
