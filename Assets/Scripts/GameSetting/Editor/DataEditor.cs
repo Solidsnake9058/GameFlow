@@ -6,6 +6,7 @@ using System.Linq;
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.ComponentModel;
 
 namespace UnityGame.Data
 {
@@ -13,6 +14,8 @@ namespace UnityGame.Data
     {
         private const string m_SettingPath = "Assets/GameSettingDatas";
         private List<SettingBaseEditor> m_DataEditor = new List<SettingBaseEditor>();
+        private Dictionary<string, SettingBaseEditor> m_DataEditorPair = new Dictionary<string, SettingBaseEditor>();
+        private Dictionary<string, SettingBase> m_DicDataSetting = new Dictionary<string, SettingBase>();
         private static string[] m_SelectText;
         private int m_SelectedIndex;
 
@@ -43,7 +46,7 @@ namespace UnityGame.Data
             m_ListView.makeItem = MakeListItem;
             m_ListView.bindItem = BindListItem;
             m_ListView.itemsSource = m_DataEditor;
-            m_ListView.onSelectionChange += OnListSelectionChange;
+            m_ListView.selectionChanged += OnListSelectionChange;
 
             m_SettingName = root.Q<TextField>("SettingName");
             m_ContentView = root.Q<VisualElement>("ContentView");
@@ -95,20 +98,50 @@ namespace UnityGame.Data
                 var data = AssetDatabase.LoadAssetAtPath<SettingBase>(path);
                 if (data != null)
                 {
-                    Type type = Type.GetType($"UnityGame.Data.{data.GetEditorName()}");
-                    if (!m_DataEditor.Where(x => x.GetType().Equals(type)).Any())
-                    {
-                        var editor = Activator.CreateInstance(type) as SettingBaseEditor;
-                        editor.Setup(data);
-                        //editor.SetAssetPath(path);
-                        m_DataEditor.Add(editor);
-
-                    }
+                    m_DicDataSetting.Add(data.GetType().Name, data);
+                    //Type type = Type.GetType($"UnityGame.Data.{data.GetEditorName()}");
+                    //if (!m_DataEditor.Where(x => x.GetType().Equals(type)).Any())
+                    //{
+                    //    var editor = Activator.CreateInstance(type) as SettingBaseEditor;
+                    //    editor.Setup(data, this);
+                    //    //editor.SetAssetPath(path);
+                    //    m_DataEditor.Add(editor);
+                    //    m_DataEditorPair.Add(data.GetEditorName(), editor);
+                    //}
                 }
             });
-            List<SettingBaseEditor> temp= m_DataEditor.OrderByDescending(x => x.Order).ToList();
+            foreach (var item in m_DicDataSetting)
+            {
+                var data = item.Value;
+                Type type = Type.GetType($"UnityGame.Data.{data.GetEditorName()}");
+                if (!m_DataEditor.Where(x => x.GetType().Equals(type)).Any())
+                {
+                    var editor = Activator.CreateInstance(type) as SettingBaseEditor;
+                    editor.Setup(data, this);
+                    //editor.SetAssetPath(path);
+                    m_DataEditor.Add(editor);
+                    m_DataEditorPair.Add(data.GetEditorName(), editor);
+                }
+            }
+            List<SettingBaseEditor> temp = m_DataEditor.OrderByDescending(x => x.Order).ToList();
 
             m_DataEditor = m_DataEditor.OrderByDescending(x => x.Order).ToList();
+        }
+
+        public T GetEditorByKey<T>(string editorName)
+        {
+            T result = default(T);
+            if (m_DataEditorPair.ContainsKey(editorName))
+            {
+                //result = m_DataEditorPair[editorName] as T;
+
+                var converter = TypeDescriptor.GetConverter(typeof(T));
+                if (converter.CanConvertTo(typeof(T)))
+                {
+                    result = (T)converter.ConvertTo(m_DataEditorPair[editorName], typeof(T));
+                }
+            }
+            return result;
         }
     }
 }

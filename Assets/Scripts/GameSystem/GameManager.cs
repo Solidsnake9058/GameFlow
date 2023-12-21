@@ -46,25 +46,7 @@ namespace UnityGame.App.Manager
 
         public bool m_IsGameOver = false;
 
-        [Header("Tenjin")]
-        [SerializeField]
-        private List<int> m_TenjinClearEventStages = default;
-
-        [SerializeField]
-        private int m_StartCalShowIntersititial = 2;
         private bool m_IsCalShowIntersititial;
-
-        //private void Awake()
-        //{
-        //    if (m_Instance == null)
-        //    {
-        //        m_Instance = this;
-        //    }
-        //    else
-        //    {
-        //        Destroy(gameObject);
-        //    }
-        //}
 
         public void Init()
         {
@@ -128,7 +110,6 @@ namespace UnityGame.App.Manager
 
         void Start()
         {
-            //IronSourceManager.ShowBanner();
             Init();
         }
 

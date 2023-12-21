@@ -28,6 +28,9 @@ namespace UnityGame.App.Manager
         private GameSetting _GameSetting;
         public static GameSetting m_GameSetting => m_Instance._GameSetting;
         [SerializeField]
+        private TaskSetting _TaskSetting;
+        public static TaskSetting m_TaskSetting => m_Instance._TaskSetting;
+        [SerializeField]
         private AppSetting _AppSetting;
         public static AppSetting m_AppSetting => m_Instance._AppSetting;
         [SerializeField]

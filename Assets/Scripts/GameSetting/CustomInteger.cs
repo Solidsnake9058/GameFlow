@@ -16,6 +16,7 @@ namespace UnityGame.App
     {
         [JsonProperty]
         private BigInteger _Value;
+        [JsonIgnore]
         public BigInteger m_Value => _Value;
 
         public CustomInteger()
@@ -33,10 +34,12 @@ namespace UnityGame.App
             _Value = value;
         }
 
-        //public CustomInteger(string value)
-        //{
-        //    _Value = new BigInteger(value);
-        //}
+        public CustomInteger(string value)
+        {
+            BigInteger big = 0;
+            BigInteger.TryParse(value, out big);
+            _Value = big;
+        }
 
         public override string ToString()
         {
@@ -172,25 +175,52 @@ namespace UnityGame.App
             {
                 return $"{_Value.ToString()}";
             }
-            bool isOver;
-            BigInteger digit;
-            var unitName = GameMediator.m_CustomIntegerUnitSetting.GetUnitData().GetUnitName(this, out isOver, out digit, shortUnit);
-            if (unitName == null)
+            //bool isOver;
+            //BigInteger digit;
+            var unitData = GameMediator.m_CustomIntegerUnitSetting.GetUnitData().GetUnitName(Abs().m_Value, shortUnit);
+            if (unitData.unitName == null)
             {
                 return $"{_Value.ToString()}";
             }
-            if (isOver)
+            if (unitData.over)
             {
-                return $"{minus}{unitName.Unit}";
+                return $"{minus}{unitData.unitName.Unit}";
             }
-            var positiveNum = abs / digit;
-            var decimalNum = (abs - positiveNum * digit) / (digit / 100);
+            var nextNum = abs;
+            var positiveNum = abs / unitData.digit;
+            var decimalNum = (abs - positiveNum * unitData.digit) / (unitData.digit / 100);
             if (shortNum && positiveNum >= RankingUnit)
             {
                 while (positiveNum >= RankingUnit) positiveNum /= 10;
-                return $"{minus}{positiveNum}...{unitName.Unit}";
+                return $"{minus}{positiveNum}...{unitData.unitName.Unit}";
             }
-            return $"{minus}{positiveNum}.{ToInt32(decimalNum):00}{unitName.Unit}";
+            StringBuilder sb = new StringBuilder();
+            sb.Append(minus);
+            sb.Append($"{positiveNum}{unitData.unitName.Unit}");
+            while (unitData.unitName != null)
+            {
+                nextNum = nextNum - positiveNum * unitData.digit;
+                if (nextNum > 0)
+                {
+                    unitData = GameMediator.m_CustomIntegerUnitSetting.GetUnitData().GetUnitName(nextNum, shortUnit);
+                    if (unitData.unitName == null)
+                    {
+                        sb.Append(nextNum);
+                    }
+                    else
+                    {
+                        positiveNum = nextNum / unitData.digit;
+                        sb.Append($"{positiveNum}{unitData.unitName.Unit}");
+                    }
+                }
+                else
+                {
+                    unitData.unitName = null;
+                }
+
+            }
+            return sb.ToString();
+            //return $"{minus}{positiveNum}.{ToInt32(decimalNum):00}{unitData.unitName.Unit}";
 
             /*
             var data = GetUnitList().Where(unit => abs >= unit.Digits).LastOrDefault();
@@ -297,7 +327,7 @@ namespace UnityGame.App
 
         public static CustomInteger operator *(CustomInteger leftSide, float rightSide)
         {
-            return new CustomInteger(leftSide._Value * new BigInteger((ulong)(rightSide * Digit)) / Digit);
+            return new CustomInteger(new BigInteger(Math.Round((double)leftSide._Value * rightSide)));
         }
         public static CustomInteger operator *(CustomInteger leftSide, CustomInteger rightSide)
         {

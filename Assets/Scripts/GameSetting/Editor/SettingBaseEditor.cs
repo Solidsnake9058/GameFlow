@@ -9,7 +9,10 @@ namespace UnityGame.Data
     {
         public const string ControlTextName = "ControlTextName";
         protected const string CustomFoldOutClass = "group-foldout-field";
+        protected const string ListItemOddClass = "list-item-odd";
+        protected const string ListItemEvenClass = "list-item-even";
 
+        protected DataEditor m_MasterEditor;
         protected SettingBase m_Asset;
         protected EditorWindow m_Editor;
         public VisualElement m_Root;
@@ -18,9 +21,10 @@ namespace UnityGame.Data
 
         public int Order { get { return m_Asset.ShowOrder; } }
 
-        public virtual void Setup(SettingBase asset)
+        public virtual void Setup(SettingBase asset, DataEditor dataEditor)
         {
             m_Asset = asset;
+            m_MasterEditor = dataEditor;
             //m_Editor = CreateEditor(asset) as EditorWindow;
             CreateGUI();
         }

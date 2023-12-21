@@ -4,6 +4,9 @@ using UnityEngine;
 using UnitySingleton;
 using System.Linq;
 using System;
+using UnityGame.Data;
+using UnityGame.App.Manager;
+using UnityGame.App;
 
 public class SaveManager : MonoBehaviourProtectedSingleton<SaveManager>
 {
@@ -25,6 +28,23 @@ public class SaveManager : MonoBehaviourProtectedSingleton<SaveManager>
     {
         GameData = null;
         GameData = PlayerPrefsX.GetClassDecrypt("PlayerSaveData", new PlayerSaveData());
+    }
+
+    private static void InitTaskInfo()
+    {
+        //var taskDatas = GameMediator.m_TaskSetting.Tasks;
+        //var tasks = new List<TaskInfo>();
+        //for (int i = 0; i < taskDatas.Count; i++)
+        //{
+        //    var data = taskDatas[i];
+        //    TaskStatus status = TaskStatus.NotShow;
+        //    if (data.ShowType.Equals(TaskShowType.WhenStart))
+        //    {
+        //        status = TaskStatus.Process;
+        //    }
+        //    tasks.Add(new TaskInfo(data.Id, 0, status));
+        //}
+        //UpdateTaskInfos(tasks);
     }
 
     public static void Save()
@@ -78,6 +98,11 @@ public class SaveManager : MonoBehaviourProtectedSingleton<SaveManager>
     public static bool IsPurchasedNoAds() => Convert.ToBoolean(GameData.PlayerAssets.PlayerIsBuyNoAds);
     public static void PurchasedNoAds() => GameData.PlayerAssets.PlayerIsBuyNoAds = 1;
     public static void AddPlayerGamingTimes() => GameData.PlayerAssets.PlayerGamingTimes++;
+
+    //Task data
+    public static List<TaskInfo> TaskInfos() => GameData.m_TaskInfos;
+    public static TaskInfo GetTaskInfoById(int id) => GameData.m_TaskInfos.Where(x => x.m_ID == id).FirstOrDefault(id);
+    public static void UpdateTaskInfos(List<TaskInfo> value) => GameData.m_TaskInfos = value;
 
 
     public static void SetStageClear(int index, StageAssets.StageState state)

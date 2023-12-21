@@ -48,7 +48,7 @@ namespace UnityGame.App.Actor
 
         private void Start()
         {
-            GameMediator.m_InputManager.SetStartTouceAction(TouchPressStarted);
+            //GameMediator.m_InputManager.SetStartTouceAction(TouchPressStarted);
             GameSetting();
         }
 

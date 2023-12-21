@@ -15,3 +15,66 @@
 .unity-float-field {
     min-width: 50px;
 }
+
+.list-item-odd {
+    background-color: rgb(117, 142, 209);
+}
+
+.list-item-even {
+    background-color: rgb(120, 43, 40);
+}
+
+.unity-collection-view__item--selected {
+    background-image: url('project://database/Assets/Textures/Editor/NoticeBG.png?fileID=2800000&guid=9e9c52485c93541a68a07b0710e4c565&type=3#NoticeBG');
+    -unity-background-scale-mode: stretch-to-fill;
+    -unity-font-style: italic;
+}
+
+.short-input-label Label {
+    height: 17px;
+    -unity-text-align: middle-left;
+}
+
+.single-input .unity-base-field__input {
+    height: 21px;
+    padding-top: 1px;
+    padding-right: 1px;
+    padding-bottom: 1px;
+    padding-left: 1px;
+}
+
+.double-input .unity-base-field__input {
+    height: 42px;
+    padding-top: 1px;
+    padding-right: 1px;
+    padding-bottom: 1px;
+    padding-left: 1px;
+    -unity-text-align: upper-left;
+    text-overflow: ellipsis;
+}
+
+.double-input TextElement {
+    height: 40px;
+    padding-top: 1px;
+    padding-right: 1px;
+    padding-bottom: 1px;
+    padding-left: 1px;
+    -unity-text-align: upper-left;
+    text-overflow: ellipsis;
+    white-space: normal;
+    flex-shrink: 1;
+    flex-grow: 0;
+}
+
+.single-input TextElement {
+    padding-top: 1px;
+    padding-right: 1px;
+    padding-bottom: 1px;
+    padding-left: 1px;
+    -unity-text-align: upper-left;
+    text-overflow: ellipsis;
+    white-space: normal;
+    flex-shrink: 0;
+    flex-grow: 1;
+    height: 19px;
+}

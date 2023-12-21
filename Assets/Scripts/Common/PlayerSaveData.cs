@@ -3,6 +3,7 @@ using UnityEngine;
 using Newtonsoft.Json;
 using System;
 using System.Linq;
+using UnityGame.Data;
 
 public class PlayerSaveData
 {
@@ -15,6 +16,7 @@ public class PlayerSaveData
     public int m_BonusStageCount;
     public int m_BonusStage;
     public bool m_IsBonusOn = false;
+    public List<TaskInfo> m_TaskInfos;
     public SortedDictionary<int, StageAssets> m_StageData = new SortedDictionary<int, StageAssets>();
     public HashSet<int> m_UnlockStageStyle = new HashSet<int>();
     public DateTime m_FirstPlayTime = DateTime.Now;
